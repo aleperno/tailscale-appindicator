@@ -9,7 +9,7 @@ case "$1" in
         ln -s /opt/tailscale-appindicator/main.py /usr/bin/tailscale-appindicator || true
 
         echo "Adding execution permissions"
-        chmod +x /opt/tailscale-appindicator/main.py
+        chmod 744 /opt/tailscale-appindicator/main.py
 
         echo "Installing Icon"
         cp /opt/tailscale-appindicator/resources/tailscale_main.svg /usr/share/icons/hicolor/scalable/apps/tailscale-appindicator.svg
@@ -26,10 +26,6 @@ case "$1" in
             echo "Fresh install"
             # Place fresh-install logic here
         fi
-
-        # Optionally restart a service if needed
-        # systemctl daemon-reload
-        # systemctl restart tailscale-appindicator.service || true
 
         ;;
     abort-upgrade|abort-remove|abort-deconfigure)
