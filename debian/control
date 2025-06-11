@@ -1,0 +1,12 @@
+Source: tailscale-appindicator
+Section: utils
+Priority: optional
+Maintainer: Alejandro Pernin <dev@aleperno.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.5.0
+
+Package: tailscale-appindicator
+Architecture: all
+Depends: ${misc:Depends}
+Description: Tailscale App Indicator
+ A simple system tray indicator for Tailscale.

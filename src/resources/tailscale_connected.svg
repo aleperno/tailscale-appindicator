@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 48 48"
+   version="1.1"
+   id="svg22"
+   sodipodi:docname="tailscale_connected.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs26">
+    <linearGradient
+       id="linearGradient44384"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop44382" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="namedview24"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="4.8355792"
+     inkscape:cx="-49.52871"
+     inkscape:cy="26.367059"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Layer 1"
+     style="display:none">
+    <rect
+       style="display:inline;fill:#ffffff"
+       id="rect700"
+       width="61.943626"
+       height="60.026855"
+       x="-5.9096169"
+       y="-4.3023381" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer 3"
+     style="display:inline">
+    <rect
+       style="fill:#008000;fill-opacity:0.500464"
+       id="rect13843"
+       width="69.632271"
+       height="58.043186"
+       x="-10.92714"
+       y="-5.5256438" />
+    <rect
+       style="fill:#cccccc;fill-opacity:0.2"
+       id="rect13845"
+       width="8.9020224"
+       height="7.6362791"
+       x="32.299862"
+       y="27.726534" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     style="display:inline">
+    <circle
+       cx="6.1521401"
+       cy="5.9855752"
+       r="5.9861703"
+       class="dot dot-a1"
+       opacity="0.2"
+       id="circle2"
+       style="fill:#000000;stroke-width:2.2171" />
+    <circle
+       cx="6.1521401"
+       cy="23.833231"
+       r="5.9861703"
+       class="dot dot-a2"
+       id="circle4"
+       style="fill:#000000;stroke-width:2.2171" />
+    <ellipse
+       cx="6.1521401"
+       cy="42.013451"
+       class="dot dot-a3"
+       opacity="0.2"
+       id="circle6"
+       style="fill:#000000;stroke-width:2.2171;fill-opacity:1"
+       rx="5.9860001"
+       ry="5.9861703" />
+    <circle
+       cx="24.110649"
+       cy="23.833231"
+       r="5.9861703"
+       class="dot dot-b1"
+       id="circle8"
+       style="fill:#000000;stroke-width:2.2171" />
+    <circle
+       cx="24.110649"
+       cy="42.013451"
+       r="5.9861703"
+       class="dot dot-b2"
+       id="circle10"
+       style="fill:#000000;stroke-width:2.2171" />
+    <circle
+       cx="24.110649"
+       cy="5.9855752"
+       r="5.9861703"
+       class="dot dot-b3"
+       opacity="0.2"
+       id="circle12"
+       style="fill:#000000;stroke-width:2.2171" />
+    <circle
+       cx="41.84745"
+       cy="5.9855752"
+       r="5.9861703"
+       class="dot dot-c1"
+       opacity="0.2"
+       id="circle14"
+       style="fill:#000000;stroke-width:2.2171" />
+    <circle
+       cx="41.84745"
+       cy="23.833231"
+       r="5.9861703"
+       class="dot dot-c2"
+       id="circle16"
+       style="fill:#000000;stroke-width:2.2171" />
+    <circle
+       cx="41.84745"
+       cy="42.013451"
+       r="5.9861703"
+       class="dot dot-c3"
+       opacity="0.2"
+       id="circle18"
+       style="fill:#1a1a1a;stroke-width:2.2171;fill-opacity:1" />
+  </g>
+</svg>

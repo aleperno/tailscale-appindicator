@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+case "$1" in
+    remove)
+        echo "tailscale-appindicator is being removed (but config files remain)."
+        rm /usr/bin/tailscale-appindicator
+        # You might stop services or clean up non-persistent resources here.
+        ;;
+
+    purge)
+        echo "tailscale-appindicator is being purged (remove everything including config)."
+        # Remove configuration files or data created post-install
+        ;;
+
+    upgrade)
+        # Not typically needed, but this argument may appear
+        ;;
+
+    abort-install|abort-upgrade|abort-remove)
+        echo "Aborting operation: $1"
+        ;;
+
+    *)
+        echo "postrm called with unknown argument: $1" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

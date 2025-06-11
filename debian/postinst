@@ -1,0 +1,44 @@
+#!/bin/bash
+set -e
+
+case "$1" in
+    configure)
+        echo "Configuring tailscale-appindicator..."
+
+        echo "Creating Symlink"
+        ln -s /opt/tailscale-appindicator/main.py /usr/bin/tailscale-appindicator || true
+
+        echo "Adding execution permissions"
+        chmod +x /opt/tailscale-appindicator/main.py
+
+        echo "Installing Icon"
+        cp /opt/tailscale-appindicator/resources/tailscale_main.svg /usr/share/icons/hicolor/scalable/apps/tailscale-appindicator.svg
+        gtk-update-icon-cache -f /usr/share/icons/hicolor || true
+
+        update-desktop-database || true
+
+        # Example: Ensure configuration directory exists
+        # Example: Handle upgrades differently
+        if [ -n "$2" ]; then
+            echo "Upgrading from version $2"
+            # Place upgrade-specific logic here
+        else
+            echo "Fresh install"
+            # Place fresh-install logic here
+        fi
+
+        # Optionally restart a service if needed
+        # systemctl daemon-reload
+        # systemctl restart tailscale-appindicator.service || true
+
+        ;;
+    abort-upgrade|abort-remove|abort-deconfigure)
+        echo "Aborting operation: $1"
+        ;;
+    *)
+        echo "postinst called with unknown argument: $1" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

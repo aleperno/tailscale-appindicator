@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=TailScale AppIndicator
+Exec=/usr/bin/tailscale-appindicator
+Icon=tailscale-appindicator
+X-GNOME-Autostart-enabled=true

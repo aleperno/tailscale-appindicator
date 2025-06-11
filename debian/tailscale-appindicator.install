@@ -1,0 +1,3 @@
+src/* /opt/tailscale-appindicator/
+src/tailscale_appindicator.desktop usr/share/applications/
+src/tailscale_appindicator.desktop etc/xdg/autostart/

@@ -1,0 +1,5 @@
+tailscale-appindicator (0.1) UNRELEASED; urgency=medium
+
+  * Initial release. (Closes: #XXXXXX)
+
+ -- Alejandro Pernin <dev@aleperno.com>  Wed, 11 Jun 2025 14:33:41 -0300
