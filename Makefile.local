@@ -1,0 +1,16 @@
+.PHONY: deb deb-clean deb-and-clean
+
+PACKAGE_NAME=tailscale-appindicator
+
+deb:
+	dpkg-buildpackage -us -uc
+	mv ../$(PACKAGE_NAME)_*.deb .
+
+deb-clean:
+	dpkg-buildpackage -T clean
+
+local-install:
+	/usr/bin/bash scripts/install.sh
+
+deb-and-clean: deb deb-clean local-install
+

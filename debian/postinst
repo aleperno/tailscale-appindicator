@@ -17,6 +17,8 @@ case "$1" in
 
         update-desktop-database || true
 
+        systemctl --user daemon-reload
+
         # Example: Ensure configuration directory exists
         # Example: Handle upgrades differently
         if [ -n "$2" ]; then
