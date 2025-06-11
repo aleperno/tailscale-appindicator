@@ -44,12 +44,10 @@ def is_sudoers_configured():
 
 
 def enable_sudoers() -> bool:
-    child = subprocess.run(['pkexec', '/usr/bin/bash', f'{DIR_PATH}/create_sudoers.sh'],
+    child = subprocess.run(['pkexec', '/usr/bin/bash', f'{DIR_PATH}/scripts/create_sudoers.sh'],
                            capture_output=True,
                            text=True)
-    if not child:
-        return False
-    return child.returncode == 0
+    return child.returncode == 0 if child else False
 
 
 def disable_sudoers() -> bool:
