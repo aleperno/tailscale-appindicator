@@ -1,4 +1,14 @@
 #!/usr/bin/env python3
+"""
+Main Logic for the Tailscale AppIndicator
+
+The code currently is a hack in its entirety, these are the main elements to take into account
+    - Interfaces with tailscale via the `tailscale` module
+    - Performs persistence operations with the `persistence` module
+    - Keeps track of the current VPN status via a "worker" (subprocess with a while loop). This worker communicates
+      with the main app via pipe
+    - Only one instance of this app is allowed at a time
+"""
 
 import gi
 import os

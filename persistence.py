@@ -1,3 +1,9 @@
+"""
+This module is in charge of any persistence related operations, such as
+    - Application configuration
+    - System changes
+"""
+
 import json
 import getpass
 import os
@@ -18,6 +24,7 @@ SYSTEMD_SOURCE_PATH = os.path.join(DIR_PATH, '/resources/tailscale-appindicator.
 ENABLE_AUTO_START_SCRIPT_PATH = os.path.join(SCRIPTS_PATH, 'enable_auto_start.sh')
 
 DISABLE_AUTO_START_CMD = "systemctl --user disable tailscale-appindicator.service"
+
 
 @dataclass
 class AppIndicatorData:
