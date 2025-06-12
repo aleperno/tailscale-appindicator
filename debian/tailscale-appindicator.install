@@ -1,3 +1,4 @@
 *.py /opt/tailscale-appindicator/
+resources/*.svg /opt/tailscale-appindicator/resources/
 resources/tailscale_appindicator.desktop usr/share/applications/
-resources/tailscale-appindicator.service etc/systemd/user
+resources/tailscale-appindicator.service /opt/tailscale-appindicator/resources/

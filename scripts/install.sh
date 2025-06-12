@@ -21,7 +21,7 @@ function copy_resource_files() {
 function copy_desktop_files() {
   cp "$WORKDIR/resources/tailscale_appindicator.desktop" /usr/share/applications/
   #cp "$WORKDIR/resources/tailscale_appindicator.desktop" /etc/xdg/autostart/
-  cp "WORKDIR/resources/tailscale-appindicator.service" /etc/systemd/user
+  cp "$WORKDIR/resources/tailscale-appindicator.service" /etc/systemd/user
   systemctl --user daemon-reload
 }
 

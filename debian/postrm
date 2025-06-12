@@ -5,6 +5,17 @@ case "$1" in
     remove)
         echo "tailscale-appindicator is being removed (but config files remain)."
         rm /usr/bin/tailscale-appindicator
+        echo "Removing .desktop from applications"
+        rm /usr/share/applications/tailscale_appindicator.desktop 2> /dev/null || true
+
+        echo "Removing service from systemd"
+        rm /etc/systemd/user/tailscale-appindicator.service 2> /dev/null || true
+
+        update-desktop-database || true
+        systemctl daemon-reload || true
+
+        echo "Removing all files"
+        rm -rf /opt/tailscale-appindicator
         # You might stop services or clean up non-persistent resources here.
         ;;
 

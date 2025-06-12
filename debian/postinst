@@ -9,7 +9,7 @@ case "$1" in
         ln -s /opt/tailscale-appindicator/main.py /usr/bin/tailscale-appindicator || true
 
         echo "Adding execution permissions"
-        chmod 744 /opt/tailscale-appindicator/main.py
+        chmod +x /opt/tailscale-appindicator/main.py
 
         echo "Installing Icon"
         cp /opt/tailscale-appindicator/resources/tailscale_main.svg /usr/share/icons/hicolor/scalable/apps/tailscale-appindicator.svg
@@ -17,7 +17,7 @@ case "$1" in
 
         update-desktop-database || true
 
-        systemctl --user daemon-reload
+        systemctl daemon-reload || true
 
         # Example: Ensure configuration directory exists
         # Example: Handle upgrades differently
