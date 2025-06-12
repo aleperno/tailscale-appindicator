@@ -89,7 +89,7 @@ class MyAppIndicator:
 
         self.enable_sudoers_switch = Gtk.CheckMenuItem(label="Enable-Sudoers")
         self.enable_sudoers_switch.set_active(self.app_data.sudoers_enabled)
-        self.enable_sudoers_switch.connect("toggled", self.on_toggled_sudoers)
+        self.enable_sudoers_switch_handler = self.enable_sudoers_switch.connect("toggled", self.on_toggled_sudoers)
         self.menu.append(self.enable_sudoers_switch)
 
         # Separator and quit item
@@ -155,17 +155,20 @@ class MyAppIndicator:
         state = item.get_active()
         self.app_data.auto_retry = state
         save_data(self.app_data)
-        print("Feature is ON" if state else "Feature is OFF")
+        print("Reconnect Feature is ON" if state else "Feature is OFF")
 
     def on_toggled_sudoers(self, item):
         new_state = item.get_active()
+        item.handler_block(self.enable_sudoers_switch_handler)
         if new_state:
             # we want to enable sudoers
-            item.set_active(enable_sudoers())
+            res = enable_sudoers()
+            item.set_active(res)
         else:
             # We want to disable sudoers
-            item.set_active(not disable_sudoers())
-
+            disable_sudoers()
+            item.set_active(False)
+        item.handler_unblock(self.enable_sudoers_switch_handler)
         state = item.get_active()
         self.app_data.sudoers_enabled = state
         self.tailscale_handler.sudo_enabled = state
