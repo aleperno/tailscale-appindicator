@@ -16,6 +16,9 @@ case "$1" in
 
         echo "Removing all files"
         rm -rf /opt/tailscale-appindicator
+
+        echo "Removing sudoers file"
+        rm /etc/sudoers.d/tailscale_appindicator 2> /dev/null || true
         # You might stop services or clean up non-persistent resources here.
         ;;
 

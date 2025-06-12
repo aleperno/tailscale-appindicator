@@ -15,9 +15,10 @@ function delete_main_dir() {
   rm -rf $TARGET_DIR
 }
 
-function delete_desktop_files() {
+function delete_files() {
   rm /usr/share/applications/tailscale_appindicator.desktop
   rm /etc/systemd/user/tailscale-appindicator.service
+  rm /etc/sudoers.d/tailscale_appindicator 2> /dev/null
   sudo -u $USERNAME XDG_RUNTIME_DIR="/run/user/$(id -u $USERNAME)" systemctl --user daemon-reload
 }
 
@@ -27,7 +28,7 @@ function remove_executable() {
 
 function main() {
   delete_main_dir
-  delete_desktop_files
+  delete_files
   remove_executable
   update-desktop-database
 }
