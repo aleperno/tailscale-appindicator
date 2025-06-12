@@ -10,12 +10,12 @@ import subprocess
 import time
 
 gi.require_version('Gtk', '3.0')
-gi.require_version('AppIndicator3', '0.1')
+gi.require_version('AyatanaAppIndicator3', '0.1')
 gi.require_version('Notify', '0.7')
 
 
 from dbus import SessionBus
-from gi.repository import Gtk, AppIndicator3, Notify, GLib
+from gi.repository import Gtk, AyatanaAppIndicator3 as AppIndicator3, Notify, GLib
 
 
 from persistence import AppIndicatorData, load_data, save_data, enable_sudoers, disable_sudoers

@@ -35,9 +35,19 @@ It will also alert us of the auto-connect status
 ## Installation
 
 ### Manual Installation
+
+First install dependencies
+
+```
+sudo apt install gir1.2-ayatanaappindicator3-0.1
+```
+then proceed to install
 ```
 sudo make -f Makefile.local local-install
 ```
+
+### Releases
+Go to the releases section and download the .deb
 
 ## Running
 
