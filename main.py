@@ -23,6 +23,9 @@ from tailscale import ConnectionStatus, TAILSCALE_RUNNING, TAILSCALE_STOPPED, TA
 from texts import (AUTO_START_WINDOW_DESCRIPTION,
                    AUTO_START_WINDOW_TITLE,
                    DISABLE_AUTO_START_WINDOW_TITLE,
+                   ENABLE_SUDOERS_WINDOW_TITLE,
+                   ENABLE_SUDOERS_WINDOW_DESCRIPTION,
+                   DISABLE_SUDOERS_WINDOW_TITLE,
                    )
 
 Notify.init("MyApp")
@@ -228,12 +231,21 @@ class MyAppIndicator:
         item.handler_block(self.enable_sudoers_switch_handler)
         if new_state:
             # we want to enable sudoers
-            res = enable_sudoers()
-            item.set_active(res)
+            confirmation = self.show_confirmation_dialog(title=ENABLE_SUDOERS_WINDOW_TITLE,
+                                                         description=ENABLE_SUDOERS_WINDOW_DESCRIPTION)
+            if confirmation:
+                res = enable_sudoers()
+                item.set_active(res)
+            else:
+                item.set_active(False)
         else:
             # We want to disable sudoers
-            disable_sudoers()
-            item.set_active(False)
+            confirmation = self.show_confirmation_dialog(title=DISABLE_SUDOERS_WINDOW_TITLE)
+            if confirmation:
+                disable_sudoers()
+                item.set_active(False)
+            else:
+                item.set_active(True)
         item.handler_unblock(self.enable_sudoers_switch_handler)
         state = item.get_active()
         self.app_data.sudoers_enabled = state
