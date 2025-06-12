@@ -18,6 +18,7 @@ The menu provides multiple actions to interact with the VPN Client
 * Status: Shows the current connection status
 * Auto-Reconnect: (Not currently Available), auto-reconnect to the VPN in case of disconnection
 * Enable-Sudoers: Add the appropiate configuration to connnect/disconnect without being requested sudo password
+* Auto-Start: Adds the service to be started at login. This **WILL NOT** connect the VPN, just start the widget
 
 ### Color Coded
 
@@ -46,8 +47,25 @@ then proceed to install
 sudo make -f Makefile.local local-install
 ```
 
+#### Uninstall
+
+```
+sudo make -f Makefile.local local-uninstall
+```
+
 ### Releases
-Go to the releases section and download the .deb
+Go to the releases section and download the .deb.
+
+Dependencies can be pre-installed via
+```bash
+sudo apt install gir1.2-ayatanaappindicator3-0.1
+```
+
+or after the .deb package installation by
+
+```bash
+sudo apt install -f
+```
 
 ## Running
 
@@ -66,3 +84,7 @@ You can add it to be started automatically via
 ```
 systemctl --user enable tailscale-appindicator
 ```
+
+Or using the menu option
+
+![Auto Start Option](./images/auto_start_option.png)
