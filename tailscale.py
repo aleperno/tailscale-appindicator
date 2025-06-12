@@ -1,6 +1,8 @@
 import subprocess
 import os
 import json
+import re
+import webbrowser
 from typing import Callable, Optional
 from enum import Enum
 
@@ -18,12 +20,16 @@ class ConnectionStatus(Enum):
 TAILSCALE_RUNNING = ('Running', )
 TAILSCALE_STOPPED = ('Stopped', )
 TAILSCALE_UNKNOWN = ('Unknown', )
+TAILSCALE_LOGGED_OFF = ('NeedsLogin', )
 
 STATUS_MAPPING = {
     TAILSCALE_RUNNING: ConnectionStatus.CONNECTED,
     TAILSCALE_STOPPED: ConnectionStatus.DISCONNECTED,
     TAILSCALE_UNKNOWN: ConnectionStatus.UNKNOWN,
+    TAILSCALE_LOGGED_OFF: ConnectionStatus.LOGGED_OUT,
 }
+
+LOGIN_URL_REGEX = ".*(?P<url>http(s?):\/\/login\.tailscale\.com[^\s]*).*"
 
 
 class TailscaleHandler:
@@ -56,10 +62,27 @@ class TailscaleHandler:
             return ConnectionStatus.ERROR
 
     def connect(self) -> bool:
-        child = subprocess.run(self._get_connect_cmd(),
-                               capture_output=True,
-                               text=True)
-        print(f"El status fue {child.returncode}")
+        print("Me intento conectar")
+        child = subprocess.Popen(self._get_connect_cmd(),
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.STDOUT,
+                                 text=True)
+        #child = subprocess.run(self._get_connect_cmd(),
+        #                       capture_output=True,
+        #                       text=True)
+
+        for line in child.stdout:
+            print(f"Proceso linea {line}")
+            m = re.match(LOGIN_URL_REGEX, line)
+            if m:
+                print("Hubo Match")
+                url = m.groupdict()['url']
+                webbrowser.open(url)
+            else:
+                print("No hubo match")
+        print("termino")
+        #print(f"El status fue {child.returncode}")
+        child.wait()
         return child.returncode == 0
 
     def disconnect(self) -> bool:
