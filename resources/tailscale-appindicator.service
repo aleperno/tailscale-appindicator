@@ -1,6 +1,7 @@
 [Unit]
 Description=Tailscale AppIndicator
-After=default.target
+After=graphical-session.target
+Requires=graphical-session.target
 
 [Service]
 ExecStart=/usr/bin/tailscale-appindicator
@@ -8,4 +9,4 @@ Restart=on-failure
 SyslogIdentifier=tailscale-appindicator
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical-session.target

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 WORKDIR="$(pwd)"
+USERNAME="$(logname)"
 TARGET_DIR="/opt/tailscale-appindicator"
 RESOURCES_DIR="$TARGET_DIR/resources"
 SCRIPTS_DIR="$TARGET_DIR/scripts"
@@ -16,13 +17,13 @@ function copy_resource_files() {
   cp -r "$WORKDIR"/*.py $TARGET_DIR
   cp -r "$WORKDIR"/resources/*.svg $RESOURCES_DIR
   cp -r "$WORKDIR/scripts/create_sudoers.sh" $SCRIPTS_DIR
+  cp -r "$WORKDIR/scripts/enable_auto_start.sh" $SCRIPTS_DIR
 }
 
 function copy_desktop_files() {
   cp "$WORKDIR/resources/tailscale_appindicator.desktop" /usr/share/applications/
-  #cp "$WORKDIR/resources/tailscale_appindicator.desktop" /etc/xdg/autostart/
   cp "$WORKDIR/resources/tailscale-appindicator.service" /etc/systemd/user
-  systemctl --user daemon-reload
+  sudo -u $USERNAME XDG_RUNTIME_DIR="/run/user/$(id -u $USERNAME)" systemctl --user daemon-reload
 }
 
 function executable() {

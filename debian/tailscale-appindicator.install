@@ -2,3 +2,5 @@
 resources/*.svg /opt/tailscale-appindicator/resources/
 resources/tailscale_appindicator.desktop usr/share/applications/
 resources/tailscale-appindicator.service /opt/tailscale-appindicator/resources/
+scripts/create_sudoers.sh /opt/tailscale-appindicator/scripts/
+scripts/enable_auto_start.sh /opt/tailscale-appindicator/scripts/

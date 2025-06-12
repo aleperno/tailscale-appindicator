@@ -18,9 +18,12 @@ from dbus import SessionBus
 from gi.repository import Gtk, AyatanaAppIndicator3 as AppIndicator3, Notify, GLib
 
 
-from persistence import AppIndicatorData, load_data, save_data, enable_sudoers, disable_sudoers
+from persistence import AppIndicatorData, load_data, save_data, enable_sudoers, disable_sudoers, enable_autostart, disable_autostart
 from tailscale import ConnectionStatus, TAILSCALE_RUNNING, TAILSCALE_STOPPED, TAILSCALE_UNKNOWN, TailscaleHandler
-
+from texts import (AUTO_START_WINDOW_DESCRIPTION,
+                   AUTO_START_WINDOW_TITLE,
+                   DISABLE_AUTO_START_WINDOW_TITLE,
+                   )
 
 Notify.init("MyApp")
 BUS_NAME = 'com.example.TailscaleAppIndicator'
@@ -59,7 +62,8 @@ class MyAppIndicator:
             AppIndicator3.IndicatorCategory.APPLICATION_STATUS
         )
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
-        self.current_state = "hello"
+        self.window = Gtk.Window(title="Switch Menu Example")
+        self.window.connect("destroy", Gtk.main_quit)
 
         # Set an initial status
         self.connection_status: ConnectionStatus = ConnectionStatus.UNKNOWN
@@ -80,27 +84,6 @@ class MyAppIndicator:
 
         self.menu.append(Gtk.SeparatorMenuItem())
 
-        # Create a menu item to hold a switch
-        self.auto_reconnect_switch = Gtk.CheckMenuItem(label="Auto-Reconnect")
-        self.auto_reconnect_switch.set_active(self.app_data.auto_retry)
-        self.auto_reconnect_switch.connect("toggled", self.on_toggled_reconnect)
-        self.menu.append(self.auto_reconnect_switch)
-        self.auto_reconnect_switch.set_sensitive(False)
-
-        self.enable_sudoers_switch = Gtk.CheckMenuItem(label="Enable-Sudoers")
-        self.enable_sudoers_switch.set_active(self.app_data.sudoers_enabled)
-        self.enable_sudoers_switch_handler = self.enable_sudoers_switch.connect("toggled", self.on_toggled_sudoers)
-        self.menu.append(self.enable_sudoers_switch)
-
-        # Separator and quit item
-        self.menu.append(Gtk.SeparatorMenuItem())
-
-        # Example menu item
-        self.item_hello = Gtk.MenuItem(label="Say Hello")
-        self.item_hello.connect("activate", self.say_hello)
-        #item_hello.show()
-        self.menu.append(self.item_hello)
-
         # Connect Item
         self.connect_item = Gtk.MenuItem(label="Connect")
         self.connect_item.connect("activate", self.connect)
@@ -113,12 +96,50 @@ class MyAppIndicator:
         self.menu.append(self.disconnect_item)
         self.disconnect_item.set_sensitive(self.connection_status == ConnectionStatus.CONNECTED)
 
+        self.menu.append(Gtk.SeparatorMenuItem())
+
+        ### Config Submenu ###
+
+        # Setup a config submenu
+        self.config_submenu = Gtk.Menu()
+
+        # Auto Reconnect Submenu
+        self.auto_reconnect_switch = Gtk.CheckMenuItem(label="Auto-Reconnect")
+        self.auto_reconnect_switch.set_active(self.app_data.auto_retry)
+        self.auto_reconnect_switch.connect("toggled", self.on_toggled_reconnect)
+        self.config_submenu.append(self.auto_reconnect_switch)
+        self.auto_reconnect_switch.set_sensitive(False)
+
+        # Enable Sudoers Submenu
+        self.enable_sudoers_switch = Gtk.CheckMenuItem(label="Enable-Sudoers")
+        self.enable_sudoers_switch.set_active(self.app_data.sudoers_enabled)
+        self.enable_sudoers_switch_handler = self.enable_sudoers_switch.connect("toggled", self.on_toggled_sudoers)
+        self.config_submenu.append(self.enable_sudoers_switch)
+        
+        # Enable Auto-Start
+        self.auto_start_login_switch = Gtk.CheckMenuItem(label="Auto-Start")
+        self.auto_start_login_switch.set_active(self.app_data.auto_start)
+        self.auto_start_login_switch_handler = self.auto_start_login_switch.connect("toggled", self.on_toggled_autostart)
+        self.config_submenu.append(self.auto_start_login_switch)
+        #self.auto_start_login_switch.set_sensitive(False)
+
+        submenu_item = Gtk.MenuItem(label="More Options")
+        submenu_item.set_submenu(self.config_submenu)
+
+        self.menu.append(submenu_item)
+
+        self.menu.append(Gtk.SeparatorMenuItem())
+
         # Quit item
         self.item_quit = Gtk.MenuItem(label="Quit")
         self.item_quit.connect("activate", self.quit)
         self.menu.append(self.item_quit)
 
         #self.item_quit.set_sensitive(False)
+
+
+
+        ###### END OF MENU #####
 
 
         self.menu.show_all()
@@ -140,6 +161,25 @@ class MyAppIndicator:
         if self.connection_status == ConnectionStatus.CONNECTED:
             self.start_worker()
 
+    def show_confirmation_dialog(self, title, description=''):
+        dialog = Gtk.MessageDialog(
+            transient_for=self.window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.NONE,
+            text=title,
+        )
+        dialog.format_secondary_text(description)
+        dialog.add_buttons(
+            "Cancel", Gtk.ResponseType.CANCEL,
+            "Accept", Gtk.ResponseType.OK
+        )
+
+        response = dialog.run()
+        dialog.destroy()
+
+        return response == Gtk.ResponseType.OK
+
     def start_worker(self):
         if not self.proc:
             self.proc = multiprocessing.Process(target=check_status_worker,
@@ -156,6 +196,32 @@ class MyAppIndicator:
         self.app_data.auto_retry = state
         save_data(self.app_data)
         print("Reconnect Feature is ON" if state else "Feature is OFF")
+
+    def on_toggled_autostart(self, item):
+        new_state = item.get_active()
+        item.handler_block(self.auto_start_login_switch_handler)
+        if new_state:
+            # User is trying to enable the auto start
+            confirmation = self.show_confirmation_dialog(title=AUTO_START_WINDOW_TITLE,
+                                                         description=AUTO_START_WINDOW_DESCRIPTION)
+            if confirmation:
+                res = enable_autostart()
+                item.set_active(res)
+            else:
+                item.set_active(False)
+        else:
+            # User wants to disable auto-start
+            confirmation = self.show_confirmation_dialog(title=DISABLE_AUTO_START_WINDOW_TITLE)
+            if confirmation:
+                res = disable_autostart()
+                item.set_active(not res)
+            else:
+                item.set_active(True)
+        item.handler_unblock(self.auto_start_login_switch_handler)
+        # Check current state
+        state = item.get_active()
+        self.app_data.auto_start = state
+        save_data(self.app_data)
 
     def on_toggled_sudoers(self, item):
         new_state = item.get_active()
@@ -198,20 +264,6 @@ class MyAppIndicator:
         notification.show()
         # Play the system sound
         subprocess.Popen(["canberra-gtk-play", "--id", "message-new-instant"])
-
-    def say_hello(self, _):
-        if self.current_state == 'hello':
-            notification = Notify.Notification.new("Hello!", "This is a desktop notification.")
-            self.item_hello.set_label('Say Bye')
-            self.current_state = 'bye'
-        else:
-            notification = Notify.Notification.new("Bye!", "This is a desktop notification.")
-            self.item_hello.set_label('Say Hello')
-            self.item_quit.set_sensitive(True)
-        notification.show()
-        # Play the system sound
-        subprocess.Popen(["canberra-gtk-play", "--id", "message-new-instant"])
-        #self.menu.show_all()
 
     def connect(self, _):
         self.tailscale_handler.connect()
