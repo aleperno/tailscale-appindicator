@@ -74,7 +74,7 @@ There are some alternatives to this
  - Via command line `tailscale-appindicator` and an attached session
  - Via the Applications tray
     ![Applications Tray](./images/apps_menu.png)
- - Systemctl `systemctl --user start tailscale-appindicator`
+ - Systemctl `systemctl --user start tailscale-appindicator.service`
 
 > [!IMPORTANT]
 > The application only allowes one instance running at a time
